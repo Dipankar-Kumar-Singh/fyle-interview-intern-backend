@@ -3,7 +3,8 @@ from core import db
 from core.apis import decorators
 from core.apis.responses import APIResponse
 from core.apis.teachers.schema import TeacherSchema
-from core.models.assignments import Assignment
+from core.libs import assertions
+from core.models.assignments import Assignment, AssignmentStateEnum
 from core.models.teachers import Teacher
 
 from core.apis.assignments.schema import AssignmentSchema ,AssignmentGradeSchema
@@ -34,6 +35,9 @@ def list_teachers(p):
 def grade_assignment(p,incoming_payload):
     """Grade an assignment"""
     grade_assignment_payload = AssignmentGradeSchema().load(incoming_payload) ;
+    assignment = Assignment.get_by_id(grade_assignment_payload.id) ;
+    assertions.assert_valid((assignment.state != AssignmentStateEnum.DRAFT), "Draft assignments cannot be graded by principal")
+
 
     graded_assignment = Assignment.mark_grade(
          _id=grade_assignment_payload.id,
