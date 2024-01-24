@@ -51,7 +51,9 @@ class Assignment(db.Model):
         return data ;
 
     @classmethod
-    def upsert(cls, assignment_new: 'Assignment'):
+    def upsert(cls, assignment_new: 'Assignment'):        
+        assertions.assert_valid(assignment_new.content is not None, "Assignment content is required for creation or update")
+
         if assignment_new.id is not None:
             assignment = Assignment.get_by_id(assignment_new.id)
             assertions.assert_found(assignment, 'No assignment with this id was found')
