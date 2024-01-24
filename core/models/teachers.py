@@ -20,6 +20,7 @@ class Teacher(db.Model):
     @classmethod
     def get_by_id(cls,_id):
         return cls.filter(cls.id == _id).first()
+    
 
     @classmethod
     def get_all(cls):
