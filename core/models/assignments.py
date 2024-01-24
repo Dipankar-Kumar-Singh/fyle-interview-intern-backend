@@ -44,11 +44,10 @@ class Assignment(db.Model):
         return cls.filter(cls.id == _id).first()
     
     @classmethod
-    def get_all(cls):
+    def get_non_draft_assignments(cls):
         data =  cls.filter(
             cls.state.in_([AssignmentStateEnum.GRADED, AssignmentStateEnum.SUBMITTED])
         ).all()
-        print(data , type(data)) ;
         return data ;
 
     @classmethod
