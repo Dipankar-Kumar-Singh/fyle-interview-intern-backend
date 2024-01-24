@@ -1,4 +1,5 @@
 import enum
+from operator import or_
 from core import db
 from core.apis.decorators import AuthPrincipal
 from core.libs import helpers, assertions
@@ -42,6 +43,14 @@ class Assignment(db.Model):
     @classmethod
     def get_by_id(cls, _id):
         return cls.filter(cls.id == _id).first()
+    
+    @classmethod
+    def get_all(cls):
+        data =  cls.filter(
+            cls.state.in_([AssignmentStateEnum.GRADED, AssignmentStateEnum.SUBMITTED])
+            # or_(cls.state == AssignmentStateEnum.GRADED , cls.state == AssignmentStateEnum.SUBMITTED)
+        )
+        return data ;
 
     @classmethod
     def upsert(cls, assignment_new: 'Assignment'):
