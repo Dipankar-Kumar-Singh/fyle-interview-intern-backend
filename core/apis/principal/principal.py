@@ -36,8 +36,6 @@ def grade_assignment(p,incoming_payload):
     """Grade an assignment"""
     grade_assignment_payload = AssignmentGradeSchema().load(incoming_payload) ;
     assignment = Assignment.get_by_id(grade_assignment_payload.id) ;
-    assertions.assert_valid((assignment.state != AssignmentStateEnum.DRAFT), "Draft assignments cannot be graded by principal")
-
 
     graded_assignment = Assignment.mark_grade(
          _id=grade_assignment_payload.id,
