@@ -28,7 +28,6 @@ def list_teachers(p):
     teachers_dump = TeacherSchema().dump(teachers, many=True)
     return APIResponse.respond(data=teachers_dump);
 
-
 @principal_resources.route('assignments/grade' , methods=['POST'] , strict_slashes = False)
 @decorators.accept_payload
 @decorators.authenticate_principal
